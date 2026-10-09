@@ -1,0 +1,36 @@
+# This checkout lives inside a game installation. Track only the independent Mod.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/AGENTS.md
+!/Tametsi Mod.cmd
+!/mods/
+
+/mods/*
+!/mods/README.md
+!/mods/THIRD_PARTY.md
+!/mods/build.ps1
+!/mods/build-manager-exe.ps1
+!/mods/check-game.ps1
+!/mods/test.ps1
+!/mods/test-manager-exe.ps1
+!/mods/release.ps1
+!/mods/src/
+!/mods/tests/
+!/mods/launcher-src/
+!/mods/resources/
+!/mods/lib/
+!/mods/vendor/
+
+/mods/launcher-src/*
+!/mods/launcher-src/ManagerLauncher.cs
+/mods/lib/*
+!/mods/lib/asm-9.7.1.jar
+/mods/vendor/*
+!/mods/vendor/asm/
+!/mods/vendor/tf0119-minesweeper/
+!/mods/vendor/twemoji/
+
+# Compiled runtimes, EXE and distribution ZIPs are published as release assets.
+# Game files, saves, local settings, backups, logs and analysis dumps stay local.

@@ -1,0 +1,62 @@
+# Tametsi better experience
+
+为 Tametsi 提供操作体验改进的独立 Mod，当前版本 **v4**。支持游戏原有的六边形、不同大小及不规则格子，使用原版邻接关系与操作接口。
+
+## 下载安装
+
+在 [Releases](https://github.com/Sliulin/Tametsi-better-experience/releases) 下载最新的 `Tametsi-Mod-v4-*.zip`。
+
+1. 正常退出 Tametsi 和旧 Mod 管理器。
+2. 将包里的 `Tametsi Mod Manager.exe` 和 `mods` 文件夹放到原版 `tametsi.exe` 所在目录。cmd 是备用入口。
+3. 打开管理器，勾选“启用 Mod”和需要的功能，点击“确定并保存”。
+4. 以后直接启动原版 `tametsi.exe` 即可。开关修改在下次启动生效。
+
+需要自行拥有对应版本的 Tametsi。本仓库和发布包均不包含游戏本体、Java 运行环境、关卡或个人存档。
+
+## 功能
+
+| 功能 | 操作与效果 |
+| --- | --- |
+| 数字格展开 | 周围旗数等于数字时，点击数字格，展开未揭开且未标记的邻居。 |
+| 数字格自动插旗 | 剩余未揭开未插旗数等于数字减已有旗数时，点击数字格，标记这些剩余格。 |
+| 邻居高亮过滤 | Ctrl 高亮排除已揭开的邻居，保留未揭开格和已插旗格。 |
+| 行列提示展开 | 行、列或斜线中的旗数等于提示总雷数时，点击提示，展开其余未标记格。 |
+| 启动自动备份 | 每次启动游戏前备份原版存档和配置，最多保留最近 10 个自动快照。 |
+| 中央旗标 | 关卡内的已插旗格中央显示彩色 🚩，随实际多边形尺寸缩放。 |
+| P 键常驻邻居高亮 | 按一次 P 开启，再按一次关闭，无需按住 Ctrl；也使用所选的高亮过滤规则。 |
+
+各项均可独立开关。v4 修复了关卡选择页误显示旗标的问题。错误插旗仍可能导致踩雷，展开功能沿用原版失败规则。
+
+P 开关只保留在当前游戏会话，重启默认关闭。开启后移动鼠标即可显示所悬停格的邻居；长按 P 不会反复切换，松开 Ctrl 不会关闭 P 的常驻状态。菜单、加载、胜负与绘图等状态暂停常驻显示。
+
+## 存档与恢复
+
+共用原版三个存档槽，关闭 Mod 不回退进度。Mod 设置独立保存，恢复备份必须在游戏已退出时进行，恢复前会另存当前进度。自动备份使用 10 个固定 ZIP 槽替换最旧快照，不批量删除文件；手动和恢复前备份另行保留。
+
+完整操作、备份恢复与安装说明见 [中文使用说明](mods/README.md)。Steam 在线成就和云同步尚未实测。
+
+## 源码构建与验证
+
+源码仓库不提交生成的 exe、运行 jar 或用户安装数据。将仓库文件放入自己的受支持游戏安装目录，在该目录执行：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File mods/build.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File mods/build-manager-exe.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File mods/test.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File mods/test-manager-exe.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File mods/release.ps1
+```
+
+使用游戏附带的 Java 8 工具链和 Windows .NET Framework 4 的 C# 编译器。构建保留历史 jar，测试使用隔离副本，不改写用户存档。
+
+v4 已通过 **385 项游戏与存档检查 + 22 项管理器 exe 检查**，包括实际特殊棋盘、菜单旗标回归、P 与 Ctrl 配合、按键长按、原版 exe 接入、存档读回和备份轮换。P 输入与渲染使用真实游戏类，原版 exe 的隔离测试在启动窗口出现前退出。v4 修改尚待人工试玩，未逐一遍历全部关卡。
+
+当前支持的原版 `tametsi.exe` SHA-256：
+
+```text
+b8f4e5453f8f12b25c28c2796d6b2ec0a066fa9ae64cff98bf72dccff0eca9da
+```
+
+## 开源来源
+
+数字格展开适配 TF0119/minesweeper 的 MIT 实现；内存字节码接入使用 ASM 9.7.1（BSD-3-Clause）；旗标图形使用 Twemoji v14.0.2（CC-BY-4.0）。固定版本、来源、改动及完整第三方许可见 [THIRD_PARTY.md](mods/THIRD_PARTY.md) 和 `mods/vendor/`。
