@@ -1,5 +1,7 @@
 # Tametsi better experience
 
+注：本 mod 完全由 AI 编写
+
 为 Tametsi 提供操作体验改进的独立 Mod，当前版本 **v4**。支持游戏原有的六边形、不同大小及不规则格子，使用原版邻接关系与操作接口。
 
 ## 下载安装
@@ -34,28 +36,6 @@ P 开关只保留在当前游戏会话，重启默认关闭。开启后移动鼠
 共用原版三个存档槽，关闭 Mod 不回退进度。Mod 设置独立保存，恢复备份必须在游戏已退出时进行，恢复前会另存当前进度。自动备份使用 10 个固定 ZIP 槽替换最旧快照，不批量删除文件；手动和恢复前备份另行保留。
 
 完整操作、备份恢复与安装说明见 [中文使用说明](mods/README.md)。Steam 在线成就和云同步尚未实测。
-
-## 源码构建与验证
-
-源码仓库不提交生成的 exe、运行 jar 或用户安装数据。将仓库文件放入自己的受支持游戏安装目录，在该目录执行：
-
-```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File mods/build.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File mods/build-manager-exe.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File mods/test.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File mods/test-manager-exe.ps1
-powershell -NoProfile -ExecutionPolicy Bypass -File mods/release.ps1
-```
-
-使用游戏附带的 Java 8 工具链和 Windows .NET Framework 4 的 C# 编译器。构建保留历史 jar，测试使用隔离副本，不改写用户存档。
-
-v4 已通过 **385 项游戏与存档检查 + 22 项管理器 exe 检查**，包括实际特殊棋盘、菜单旗标回归、P 与 Ctrl 配合、按键长按、原版 exe 接入、存档读回和备份轮换。P 输入与渲染使用真实游戏类，原版 exe 的隔离测试在启动窗口出现前退出。v4 修改尚待人工试玩，未逐一遍历全部关卡。
-
-当前支持的原版 `tametsi.exe` SHA-256：
-
-```text
-b8f4e5453f8f12b25c28c2796d6b2ec0a066fa9ae64cff98bf72dccff0eca9da
-```
 
 ## 开源来源
 
