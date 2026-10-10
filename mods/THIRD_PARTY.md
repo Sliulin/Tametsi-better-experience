@@ -1,5 +1,7 @@
 # 开源代码来源
 
+本 Mod 完全由 AI 编写。以下复用的第三方代码与图形资源保留原作者的署名、来源和许可，AI 编写声明不替代这些版权信息。
+
 数字格展开的 Java 实现 `src/tametsimod/Chord.java` 移植并适配了：
 
 - 项目：[TF0119/minesweeper](https://github.com/TF0119/minesweeper)

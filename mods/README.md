@@ -1,20 +1,22 @@
 # Tametsi Mod v4：P 键常驻高亮与菜单旗标修复
 
+**本 Mod 完全由 AI 编写。** 复用的第三方代码和图形资源保留各自的作者、来源与许可，见 `THIRD_PARTY.md`。
+
 ## 开始使用
 
 本目录已经放好编译后的 Mod，可以直接使用，无需安装 Java、Go 或额外 Mod 框架。
 
-1. 更新时正常退出 Tametsi 和旧 Mod 启动器，将 v4 包中的 `Tametsi Mod Manager.exe` 与整个 `mods` 文件夹放到 `tametsi.exe` 所在目录。`Tametsi Mod.cmd` 是备用入口，也可一起复制。
-2. 双击 `Tametsi Mod Manager.exe` 打开 Mod 管理器。
+1. 更新时正常退出 Tametsi 和旧 Mod 启动器，将 v4 包中的 `Tametsi Mod.cmd` 与整个 `mods` 文件夹放到 `tametsi.exe` 所在目录。
+2. 双击 `Tametsi Mod.cmd` 打开 Mod 管理器。
 3. 勾选“启用 Mod”，选择各项功能，再点击“确定并保存”。仅勾选而不确定，不会写入设置。
 4. 以后直接打开原版 `tametsi.exe` 即可读取保存的 Mod 状态；也可用管理器的“启动游戏”。在原版启动窗口点击 `Play`。
 5. 游戏运行期间修改并保存设置，下次启动才生效。关闭 Mod 同样需要在管理器中取消勾选并确定，然后正常重启游戏。
 
 管理器可以分别开关七项功能：数字格展开、数字格自动插旗、Ctrl 高亮过滤、行列提示展开、每次启动自动备份、中央旗标、P 键常驻邻居高亮。主开关关闭时所有功能停止；各项选择仍会保留，供下次启用。
 
-exe 直接运行图形管理界面，没有 cmd 黑窗口。它使用原版 `jre` 文件夹中的 Java 和 Windows .NET Framework 4；当前电脑已具备此环境。exe 与 cmd 读取同一份设置，更新时按 `mods/active-runtime.txt` 加载当前版本，管理器 exe 无需随每次 jar 更新重编译。exe 需要与 `mods` 一起安装，不能单独复制到其他目录使用。
+发布包的顶层只包含 `mods` 文件夹和 `Tametsi Mod.cmd`。运行文件随 `mods` 提供，无需自行编译；在 GitHub 下载仓库 ZIP 后，也可将这两项直接放到受支持的游戏目录。游戏本体、关卡和个人数据不随包提供。
 
-重新编译 exe 可运行 `powershell -NoProfile -ExecutionPolicy Bypass -File mods/build-manager-exe.ps1`；源码为 `mods/launcher-src/ManagerLauncher.cs`，使用 Windows 自带的 .NET Framework C# 编译器，不下载构建依赖。`mods/test-manager-exe.ps1` 会在隔离副本中启动实际 exe，验证管理界面、开关和版本加载，不显示测试窗口。
+如需 exe 入口，可自行运行 `powershell -NoProfile -ExecutionPolicy Bypass -File mods/build-manager-exe.ps1`；源码为 `mods/launcher-src/ManagerLauncher.cs`，使用 Windows 的 .NET Framework 4 C# 编译器。生成的 exe 与 cmd 打开相同的图形管理器、读取同一份设置，但 exe 不随当前上传包提供。已有 exe 入口可继续使用。
 
 ## 操作功能
 
@@ -107,16 +109,12 @@ Steam 云同步与成就尚未做在线实测。本工具恢复的是本地文�
 - 构建使用游戏附带的 Java 8，源码在 `mods/src/tametsimod/`。
 - 测试使用 `mods/test-runs/` 中的隔离副本，保留产物，遵守禁止批量删除的项目规则。
 
-v4 已通过 385 项自动检查，包括原有展开和插旗、行列提示、特殊棋盘、功能开关、旗标尺寸和显隐、共用存档、原版 exe 接入、自动备份轮换和恢复，以及菜单旗标回归和 P 键功能。新增验证使用原版游戏的实际键盘方法、鼠标悬停计算与完整绘制路径，覆盖长按、Ctrl 共用、焦点丢失、各受限状态，以及六边形和混合大小棋盘的逐格显示。原版 exe 测试使用隔离副本，在原版 UI 打开前由测试探针退出；游戏输入与渲染另用真实游戏类测试。已检查管理器和棋盘渲染图。
-
-用户已实测 v1/v2 操作功能可用，并提供 v3 关卡页面旗标问题截图；v4 修改完成自动验证，尚待人工试玩。全部关卡逐一遍历和 Steam 在线成就、云同步尚未验证。当前版本绑定已分析的游戏程序 SHA-256：
+当前版本绑定的游戏程序 SHA-256：
 
 `b8f4e5453f8f12b25c28c2796d6b2ec0a066fa9ae64cff98bf72dccff0eca9da`
 
 ## 安装独立压缩包
 
-将压缩包解压到同一版本 Tametsi 的游戏目录，使 `Tametsi Mod Manager.exe` 和原版 `tametsi.exe` 位于同一层，`mods` 文件夹也在这一层，然后按“开始使用”操作。cmd 是备用入口。
-
-管理器 exe 另通过 22 项专项检查，涵盖含空格路径、从其他目录启动、保存的主开关和独立功能设置、新增 P 功能开关、切换活动 jar、原版启动命令，以及只打开管理器不修改设置或安装接入。
+将压缩包解压到同一版本 Tametsi 的游戏目录，使 `Tametsi Mod.cmd` 和原版 `tametsi.exe` 位于同一层，`mods` 文件夹也在这一层，然后按“开始使用”操作。
 
 压缩包只包含 Mod、源码、脚本和许可，不包含游戏程序、运行环境、关卡或用户存档。
