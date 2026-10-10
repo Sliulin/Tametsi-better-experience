@@ -2,11 +2,13 @@ $ErrorActionPreference = 'Stop'
 $gameRoot = Split-Path -Parent $PSScriptRoot
 $relative = (Get-Content -LiteralPath "$PSScriptRoot\active-runtime.txt").Trim()
 if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot $relative))) { throw 'Build the mod before packaging.' }
+if (-not (Test-Path -LiteralPath "$gameRoot\Tametsi Mod Manager.exe" -PathType Leaf)) { throw 'Build the manager EXE before packaging.' }
 $packageId = (Get-Date -Format 'yyyyMMdd-HHmmss-fff') + '-' + [guid]::NewGuid().ToString('N').Substring(0, 8)
 $stage = Join-Path $PSScriptRoot "package-staging\$packageId"
 $modStage = Join-Path $stage 'mods'
 New-Item -ItemType Directory -Path $modStage, "$PSScriptRoot\dist" -Force | Out-Null
 Copy-Item -LiteralPath "$gameRoot\Tametsi Mod.cmd" -Destination $stage
+Copy-Item -LiteralPath "$gameRoot\Tametsi Mod Manager.exe" -Destination $stage
 New-Item -ItemType Directory -Path "$modStage\versions", "$modStage\lib" -Force | Out-Null
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot $relative) -Destination (Join-Path $modStage $relative)
 Copy-Item -LiteralPath "$PSScriptRoot\lib\asm-9.7.1.jar" -Destination "$modStage\lib"
