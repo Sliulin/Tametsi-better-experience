@@ -4,7 +4,6 @@ import game.State;
 import graph.Node;
 import puzzle.ColumnHint;
 import puzzle.Puzzle;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,12 +22,18 @@ final class ColumnChord {
     }
     static List<Node> targets(ColumnHint hint, Puzzle puzzle) {
         if (hint == null || hint.hidden || hint.numMines < 0) return Collections.emptyList();
-        List<Node> members = new ArrayList<Node>();
+        return Chord.targetsByIds(puzzle, hint.ids, hint.numMines);
+    }
+    static boolean ready(ColumnHint hint, Puzzle puzzle) {
+        if (hint == null || hint.hidden || hint.numMines < 0 || puzzle == null || puzzle.G == null)
+            return false;
+        int flags = 0;
         for (Integer id : hint.ids) {
+            if (id == null) return false;
             Node node = puzzle.G.get(id);
-            if (node == null) return Collections.emptyList();
-            members.add(node);
+            if (node == null) return false;
+            if (node.flagged) flags++;
         }
-        return Chord.targets(members, hint.numMines, false);
+        return flags == hint.numMines;
     }
 }

@@ -49,6 +49,20 @@ public final class Chord {
         return hidden;
     }
 
+    /** The same flag-count chord, applied to an original hint's member IDs. */
+    static List<Node> targetsByIds(puzzle.Puzzle puzzle, Iterable<Integer> ids, int number) {
+        if (puzzle == null || puzzle.G == null || ids == null || number < 0)
+            return Collections.emptyList();
+        List<Node> members = new ArrayList<Node>();
+        for (Integer id : ids) {
+            if (id == null) return Collections.emptyList();
+            Node node = puzzle.G.get(id);
+            if (node == null) return Collections.emptyList();
+            members.add(node);
+        }
+        return targets(members, number, false);
+    }
+
     /** Normal reveal rules, including zero expansion and losing on incorrect flags. */
     public static Result reveal(Node clue, Game game) {
         return reveal(targets(clue), game);

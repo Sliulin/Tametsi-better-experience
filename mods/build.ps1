@@ -15,7 +15,7 @@ Set-Content -LiteralPath $manifest -Value "Premain-Class: tametsimod.ModAgent`r`
 & "$gameRoot\jre\bin\jar.exe" cfm $candidate $manifest -C $classes . -C "$PSScriptRoot\resources" tametsimod/flag.png -C $PSScriptRoot THIRD_PARTY.md -C $PSScriptRoot vendor/tf0119-minesweeper/LICENSE -C $PSScriptRoot vendor/asm/LICENSE -C $PSScriptRoot vendor/twemoji/LICENSE-GRAPHICS
 if ($LASTEXITCODE -ne 0) { throw 'Mod packaging failed.' }
 New-Item -ItemType Directory -Path "$PSScriptRoot\versions" -Force | Out-Null
-$relative = "versions/tametsi-mod-v4-$buildId.jar"
+$relative = "versions/tametsi-mod-v4.1-$buildId.jar"
 Copy-Item -LiteralPath $candidate -Destination (Join-Path $PSScriptRoot $relative)
 Set-Content -LiteralPath "$PSScriptRoot\active-runtime.txt" -Value $relative -Encoding ASCII
 Write-Output "Built: $PSScriptRoot\$relative"

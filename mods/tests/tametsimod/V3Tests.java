@@ -203,6 +203,7 @@ final class V3Tests {
         check(Files.exists(root.resolve("mods/installation/tametsi.l4j.ini.original")), "native installation saves original sidecar options");
         Properties first = probe(root);
         check("mod".equals(first.getProperty("mode")) && "true".equals(first.getProperty("input.installed")), "original exe enables mod without a separate game bootstrap");
+        check("true".equals(first.getProperty("colorChord")), "native startup loads the color chord switch");
         check(first.getProperty("backup") != null, "first native startup creates an automatic snapshot");
 
         for (int i = 2; i <= 12; i++) {

@@ -208,6 +208,7 @@ public final class ModTests {
         assertions += V2Tests.highlights(true);
         assertions += V3Tests.game(game);
         assertions += V4Tests.run(game);
+        assertions += HintTests.run(game);
         // Leave ordinary in-progress data for a fresh, unmodified JVM to reload.
         resetState(); fixture = new Fixture(); game.puzzle = new Puzzle();
         game.puzzle.G = fixture.graph; game.puzzle.id = "mod-test"; Game.mh.setGraph(fixture.graph);

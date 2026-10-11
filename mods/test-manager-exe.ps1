@@ -42,7 +42,7 @@ foreach ($scenario in @('saved settings with spaces', 'repointed runtime with sp
     # Properties.store escapes Chinese and backslashes.
     $content = Get-Content -LiteralPath $marker -Raw
     if ($content -notmatch '(?m)^success=true\r?$') { throw $content }; $checks++
-    if ($content -notmatch '(?m)^checkboxes=8\r?$') { throw 'Feature UI was not loaded.' }; $checks++
+    if ($content -notmatch '(?m)^checkboxes=9\r?$') { throw 'Feature UI was not loaded.' }; $checks++
     $expectedPath = (Join-Path "$sandbox\mods" $selected).Replace('\','\\').Replace(':','\:')
     if (-not $content.Contains("runtime=$expectedPath")) { throw 'Active runtime source mismatch.' }; $checks++
     $expectedRoot = $sandbox.Replace('\','\\').Replace(':','\:')

@@ -52,7 +52,7 @@ public final class Manager {
         JPanel main = new JPanel(new BorderLayout(0, 18));
         main.setBorder(BorderFactory.createEmptyBorder(22, 24, 22, 24));
         JPanel text = new JPanel(new java.awt.GridLayout(0, 1, 0, 8));
-        JLabel title = new JLabel("Tametsi Mod 管理器  v4");
+        JLabel title = new JLabel("Tametsi Mod 管理器  v4.1");
         title.setFont(title.getFont().deriveFont(Font.BOLD, 21f));
         text.add(title);
         text.add(enabled);

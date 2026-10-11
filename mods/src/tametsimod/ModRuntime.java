@@ -36,7 +36,7 @@ public final class ModRuntime {
         };
         Toolkit.getDefaultToolkit().addAWTEventListener(listener,
                 AWTEvent.MOUSE_EVENT_MASK | AWTEvent.WINDOW_FOCUS_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
-        System.out.println("Tametsi Mod v4: feature hooks installed");
+        System.out.println("Tametsi Mod v4.1: feature hooks installed");
     }
 
     static void attach(Game game) {

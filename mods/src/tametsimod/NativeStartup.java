@@ -41,7 +41,7 @@ final class NativeStartup {
             for (Feature feature : Feature.values()) ready.setProperty(feature.key, Boolean.toString(RuntimeOptions.enabled(feature)));
             if (backup != null) ready.setProperty("backup", root.relativize(backup).toString());
             FilesSupport.write(run.resolve("ready.properties"), ready);
-            System.out.println("Tametsi Mod v4: original exe startup, mode=" + ready.getProperty("mode"));
+            System.out.println("Tametsi Mod v4.1: original exe startup, mode=" + ready.getProperty("mode"));
             // Isolation tests invoke the real executable, then stop before opening its UI.
             if (Boolean.getBoolean("tametsimod.startupProbe")) {
                 FilesSupport.write(root.resolve("mods/native-probe.properties"), ready);

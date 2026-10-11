@@ -20,7 +20,7 @@ Copy-Item -LiteralPath "$PSScriptRoot\launcher-src\ManagerLauncher.cs" -Destinat
 foreach ($name in @('src', 'tests', 'vendor', 'resources')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot $name) -Destination $modStage -Recurse
 }
-$archive = Join-Path $PSScriptRoot "dist\Tametsi-Mod-v4-$packageId.zip"
+$archive = Join-Path $PSScriptRoot "dist\Tametsi-Mod-v4.1-$packageId.zip"
 Compress-Archive -Path (Join-Path $stage '*') -DestinationPath $archive
 $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
 Set-Content -LiteralPath "$archive.sha256" -Value "$hash  $([IO.Path]::GetFileName($archive))" -Encoding ASCII

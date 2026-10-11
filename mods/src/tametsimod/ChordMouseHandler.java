@@ -39,6 +39,11 @@ public final class ChordMouseHandler extends MouseHandler {
 
     @Override public void mousePressed(MouseEvent event) {
         if (eligible(event)) {
+            puzzle.Hint color = ColorChord.hit(game.puzzle, event.getX(), event.getY());
+            if (color != null) {
+                finishReveal(Chord.reveal(ColorChord.targets(color, game.puzzle), game));
+                return; // Counter UI takes priority over a tile underneath it.
+            }
             Node clue = G.pointInNode(event.getX(), event.getY());
             if (clue == null && RuntimeOptions.enabled(Feature.COLUMNS)) {
                 java.util.List<Node> targets = ColumnChord.targets(

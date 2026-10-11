@@ -42,6 +42,8 @@ v3 同时验证原版 `draw` 中的棋盘绘制位置，将中央旗标叠加在
 
 v4 的 P 键功能复用同一 ASM 库和 Tametsi 原版高亮：转换 `Game.keyPressed/keyReleased` 的入口、`MouseHandler.mouseMoved` 与 `Drawer.draw` 中的邻居显示读取。保持原版按住 Ctrl 的状态独立，增加当前会话的显示开关。开发前检索了现有扫雷项目的键盘模式切换和邻居高亮实现；没有找到可直接用于此 Java/Swing 游戏接入的实现，未复制新的上游代码。此部分为 Tametsi 所需的输入与绘制适配层，源码随包保留。菜单旗标修复只限制绘制状态，不修改菜单原版标记或进度。
 
+v4.1 颜色提示展开继续复用上述 MIT 许可的旗数相等展开算法，将成员集合适配为原版 `Hint.ids`，揭开和保存仍由原版接口完成。开发前检索了现有扫雷项目的剩余雷数与展开操作实现，未引入额外上游代码。颜色数字的点击范围取自原版 `drawHintMineCount` 实际绘制的字体、位置与变换，行列圆圈沿用 `drawColumnHints` 的文本布局；这些是本项目为 Tametsi 编写的适配层，使用同一 ASM 9.7.1 库，不修改隐藏雷值、颜色分组或原版游戏文件。
+
 ## Twemoji 中央旗标
 
 - 项目：[Twitter Twemoji](https://github.com/twitter/twemoji)，固定版本 `v14.0.2`。

@@ -50,12 +50,46 @@ public final class ModAgent {
         final int[] replacements = new int[1];
         final int[] iconInsertions = new int[1];
         final int[] toggleReads = new int[1];
+        final int[] columnText = new int[1];
+        final int[] colorText = new int[1];
+        final int[] frames = new int[1];
         reader.accept(new ClassVisitor(Opcodes.ASM9, writer) {
             @Override public MethodVisitor visitMethod(int access, String name, String descriptor,
                     String signature, String[] exceptions) {
                 MethodVisitor original = super.visitMethod(access, name, descriptor, signature, exceptions);
+                final boolean column = "drawColumnHints".equals(name)
+                        && "(Ljava/awt/Graphics2D;Lpuzzle/Puzzle;)V".equals(descriptor);
+                final boolean color = "drawHintMineCount".equals(name)
+                        && "(IILjava/awt/Graphics2D;Lpuzzle/Puzzle;)V".equals(descriptor);
+                if (column || color) return new MethodVisitor(Opcodes.ASM9, original) {
+                    @Override public void visitMethodInsn(int opcode, String owner, String method,
+                            String desc, boolean isInterface) {
+                        if (opcode == Opcodes.INVOKEVIRTUAL && "java/awt/Graphics2D".equals(owner)
+                                && "drawString".equals(method) && "(Ljava/lang/String;FF)V".equals(desc)) {
+                            int occurrence = column ? ++columnText[0] : ++colorText[0];
+                            if (column || occurrence == 1) {
+                                super.visitVarInsn(Opcodes.ALOAD, column ? 1 : 3);
+                                super.visitVarInsn(Opcodes.ALOAD, column ? 3 : 9);
+                                super.visitMethodInsn(Opcodes.INVOKESTATIC,
+                                        column ? "tametsimod/ColumnIndicators" : "tametsimod/ColorChord",
+                                        "drawText", "(Ljava/awt/Graphics2D;Ljava/lang/String;FFLpuzzle/Puzzle;"
+                                                + (column ? "Lpuzzle/ColumnHint;" : "Lpuzzle/Hint;") + ")V", false);
+                                return;
+                            }
+                        }
+                        super.visitMethodInsn(opcode, owner, method, desc, isInterface);
+                    }
+                };
                 if ("draw".equals(name) && "(IILjava/awt/Graphics;Lpuzzle/Puzzle;)V".equals(descriptor)) {
                     return new MethodVisitor(Opcodes.ASM9, original) {
+                        @Override public void visitCode() {
+                            super.visitCode(); frames[0]++;
+                            super.visitVarInsn(Opcodes.ALOAD, 3);
+                            super.visitVarInsn(Opcodes.ILOAD, 0);
+                            super.visitVarInsn(Opcodes.ILOAD, 1);
+                            super.visitMethodInsn(Opcodes.INVOKESTATIC, "tametsimod/ColorChord", "begin",
+                                    "(Lpuzzle/Puzzle;II)V", false);
+                        }
                         @Override public void visitFieldInsn(int opcode, String owner, String field, String desc) {
                             if (opcode == Opcodes.GETSTATIC && "game/State".equals(owner) && "SHOW_NEIGHBORS".equals(field) && "Z".equals(desc)) {
                                 toggleReads[0]++;
@@ -92,8 +126,10 @@ public final class ModAgent {
                 };
             }
         }, 0);
-        if (replacements[0] != 1 || iconInsertions[0] != 1 || toggleReads[0] != 1)
-            throw new IllegalStateException("绘制入口不匹配：" + replacements[0] + "/" + iconInsertions[0] + "/" + toggleReads[0]);
+        if (replacements[0] != 1 || iconInsertions[0] != 1 || toggleReads[0] != 1
+                || columnText[0] != 1 || colorText[0] != 3 || frames[0] != 1)
+            throw new IllegalStateException("绘制入口不匹配：" + replacements[0] + "/" + iconInsertions[0]
+                    + "/" + toggleReads[0] + "/" + columnText[0] + "/" + colorText[0] + "/" + frames[0]);
         return writer.toByteArray();
     }
 
@@ -147,7 +183,7 @@ public final class ModAgent {
     }
 
     static void requirePatched() throws Exception {
-        if (!active) throw new IllegalStateException("Mod v4 未加载输入与绘制组件，请打开新版管理器并保存设置。");
+        if (!active) throw new IllegalStateException("Mod v4.1 未加载输入与绘制组件，请打开新版管理器并保存设置。");
         Class.forName("draw.Drawer", false, ModAgent.class.getClassLoader());
         Class.forName("io.MouseHandler", false, ModAgent.class.getClassLoader());
         Class.forName("game.Game", false, ModAgent.class.getClassLoader());
